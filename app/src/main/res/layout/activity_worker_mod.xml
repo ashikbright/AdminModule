@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/header_background"
+                android:padding="10dp">
+
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_location"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/puttur"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.098" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_labour"
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:layout_width="141dp"
+                        android:layout_height="121dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/bgColor"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/labour1"
+                        android:contentDescription="TODO" />
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_mistri"
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:layout_width="141dp"
+                        android:layout_height="121dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/bgColor"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/mistri"
+                        android:contentDescription="@string/todo" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_tiles"
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:layout_width="141dp"
+                        android:layout_height="121dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/bgColor"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/marble1" />
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_painter"
+                        android:layout_width="141dp"
+                        android:layout_height="121dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/bgColor"
+                        android:contentDescription="TODO"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/painter1"
+                        tools:ignore="SpeakableTextPresentCheck" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_furniture"
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:layout_width="141dp"
+                        android:layout_height="121dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/bgColor"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/furniture1"
+                        android:contentDescription="TODO" />
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_plumber"
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:layout_width="141dp"
+                        android:layout_height="121dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/bgColor"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/plumber1" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_plumber2"
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:layout_width="141dp"
+                        android:layout_height="121dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/bgColor"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/welder1"
+                        android:contentDescription="TODO" />
+
+                    <ImageButton
+                        android:id="@+id/imgbtn_plumber3"
+                        tools:ignore="SpeakableTextPresentCheck"
+                        android:layout_width="141dp"
+                        android:layout_height="121dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="1"
+                        android:background="@color/bgColor"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/electrician1"
+                        android:contentDescription="@string/todo" />
+                </TableRow>
+
+            </TableLayout>
+
+            <Button
+                android:id="@+id/createAccount2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/colorPrimaryDark"
+                android:fontFamily="@font/roboto"
+                android:text="@string/create_account"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
