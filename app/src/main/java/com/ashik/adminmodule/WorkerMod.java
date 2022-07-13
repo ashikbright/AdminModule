@@ -13,6 +13,7 @@ public class WorkerMod extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_worker_mod);
+        addprofile=findViewById(R.id.createwprofile);
 
        addprofile.setOnClickListener(new View.OnClickListener() {
            @Override
