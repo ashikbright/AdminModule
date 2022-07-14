@@ -69,6 +69,7 @@ public class WorkerMgmt extends AppCompatActivity {
         String phone = editPhone.getText().toString();
         String password1 = editPassword1.getText().toString().trim();
         String password2 = editPassword2.getText().toString().trim();
+        String isWorker="1";
 
         if (name.isEmpty()){
             editName.setError("Full name is required!");
@@ -134,8 +135,9 @@ public class WorkerMgmt extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()){
-                            Workers workers=new Workers(name,workertype,email,phone);
+                            Workers workers=new Workers(name,email,phone,isWorker);
                             FirebaseDatabase.getInstance().getReference("Workers")
+                                    .child(spinner.getSelectedItem().toString())
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(workers).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
