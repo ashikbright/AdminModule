@@ -134,15 +134,16 @@ public class WorkerMgmt extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()){
-                            User user=new User(name,workertype,email,phone);
+                            Workers workers=new Workers(name,workertype,email,phone);
                             FirebaseDatabase.getInstance().getReference("Workers")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    .setValue(workers).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     if(task.isSuccessful()){
                                         Toast.makeText(WorkerMgmt.this, "Worker has registered successfully", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.VISIBLE);
                                         Intent intent = new Intent(WorkerMgmt.this, loginActivity.class);
                                         startActivity(intent);
                                     }

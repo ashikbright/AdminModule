@@ -86,7 +86,7 @@ public class loginActivity extends AppCompatActivity {
 
     private void checkUserAccessLevel(String uid) {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Users");
+        myRef = database.getReference("Admin");
         user = mAuth.getCurrentUser();
 
         myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {

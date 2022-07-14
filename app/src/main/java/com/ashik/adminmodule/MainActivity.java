@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID = "";
-    private String name, phone, email;
+    private String name,workerype, phone, email;
 
 
 
@@ -88,11 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if (userData != null){
                     name = userData.name;
+                    workerype=userData.workertype;
                     phone = userData.phone;
                     email = userData.email;
 
                     SharedPreferences.Editor editor = getSharedPreferences("userInfo", MODE_PRIVATE).edit();
                     editor.putString("name", name);
+                    editor.putString("workertype",workerype);
                     editor.putString("phone", phone);
                     editor.putString("email", email);
                     editor.apply();
