@@ -58,13 +58,9 @@ public class ProfileFragment extends Fragment {
         userImage = view.findViewById(R.id.user_imageView);
         storage = FirebaseStorage.getInstance();
 
-
-        Log.d("logInfo", mAuth.toString());
-
         storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
         progressBar.setVisibility(View.VISIBLE);
         loadProfileImageFromFirebase();
-
         try {
             SharedPreferences sp = requireActivity().getSharedPreferences("adminInfo",MODE_PRIVATE);
             name = sp.getString("name", name);
@@ -229,6 +225,7 @@ public class ProfileFragment extends Fragment {
 
             storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
 
+
             storageReference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -252,7 +249,7 @@ public class ProfileFragment extends Fragment {
 
     private void loadProfileImageFromFirebase() {
 
-        storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
+        storageReference = storage.getReference().child("User/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
 
         ProgressDialog dialog = new ProgressDialog(getActivity());
         dialog.setTitle("Please Wait");
