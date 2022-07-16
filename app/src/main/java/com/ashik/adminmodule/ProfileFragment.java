@@ -1,23 +1,37 @@
 package com.ashik.adminmodule;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -28,6 +42,10 @@ public class ProfileFragment extends Fragment {
     private ProgressBar progressBar;
     private String name, phone, email;
     private ListView listView;
+    private CircleImageView userImage;
+    private FirebaseStorage storage;
+    private Uri imageURI;
+    private StorageReference storageReference;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,9 +55,12 @@ public class ProfileFragment extends Fragment {
         progressBar = view.findViewById(R.id.user_progressBar);
         listView = view.findViewById(R.id.user_profile_list_view);
         mAuth = FirebaseAuth.getInstance();
+        userImage = view.findViewById(R.id.user_imageView);
+        storage = FirebaseStorage.getInstance();
 
+        storageReference = storage.getReference().child("Users/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
         progressBar.setVisibility(View.VISIBLE);
-
+        loadProfileImageFromFirebase();
         try {
             SharedPreferences sp = requireActivity().getSharedPreferences("userInfo",MODE_PRIVATE);
             name = sp.getString("name", name);
@@ -59,6 +80,15 @@ public class ProfileFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
         }
 
+
+        userImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 33);
+
+            }
+        });
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -168,4 +198,88 @@ public class ProfileFragment extends Fragment {
 
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                imageURI = data.getData();
+                Common.userProfileImage = imageURI;
+
+                userImage.setImageURI(imageURI);
+                uploadImageToFirebase(imageURI);
+            }
+        }
+
+    }
+
+    private void uploadImageToFirebase(Uri imageURI) {
+
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setMessage("Uploading...");
+        dialog.show();
+
+        if (imageURI != null) {
+
+            storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
+
+
+            storageReference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Log.d("imageUpload", "success");
+                    Toast.makeText(getActivity(), "Profile Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                    loadProfileImageFromFirebase();
+                    dialog.dismiss();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("imageUpload", e.toString());
+                    Toast.makeText(getActivity(), "error uploading photo", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
+            });
+
+        }
+
+    }
+
+    private void loadProfileImageFromFirebase() {
+
+        storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
+
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setTitle("Please Wait");
+        dialog.setMessage("Loading...");
+        dialog.show();
+
+        storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                try {
+                    Glide
+                            .with(requireActivity())
+                            .load(uri)
+                            .placeholder(R.drawable.user_profile_progress_bar)
+                            .into(userImage);
+                } catch (Exception e) {
+                    Log.d("GlideError", "something went wrong!" + e.toString());
+                }
+            }
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("storageReferenceError", "Failed to load image!");
+            }
+        });
+
+        Handler handler = new Handler();
+        handler.postDelayed(dialog::dismiss, 1300);
+
+
+    }
 }
