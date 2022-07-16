@@ -36,7 +36,7 @@ public class WorkerMgmt extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        btnLogin = findViewById(R.id.loginHere);
+//        btnLogin = findViewById(R.id.loginHere);
         btnRegisterUser = findViewById(R.id.createAccount);
 
         editName = findViewById(R.id.name);
