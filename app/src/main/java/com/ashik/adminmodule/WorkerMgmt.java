@@ -36,7 +36,7 @@ public class WorkerMgmt extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        btnLogin = findViewById(R.id.loginHere);
+
         btnRegisterUser = findViewById(R.id.createAccount);
 
         editName = findViewById(R.id.name);
@@ -48,14 +48,6 @@ public class WorkerMgmt extends AppCompatActivity {
         progressBar = findViewById(R.id.register_progressBar);
         errorMsg = findViewById(R.id.errorMsg_register);
 
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(WorkerMgmt.this, loginActivity.class);
-                startActivity(intent);
-            }
-        });
 
         btnRegisterUser.setOnClickListener(v -> registerUser());
 
@@ -70,6 +62,10 @@ public class WorkerMgmt extends AppCompatActivity {
         String password1 = editPassword1.getText().toString().trim();
         String password2 = editPassword2.getText().toString().trim();
         String isWorker="1";
+
+        Intent mIntent = getIntent();
+        int selectedItem = mIntent.getIntExtra("itemSelected", 0);
+        spinner.setSelection(selectedItem);
 
         if (name.isEmpty()){
             editName.setError("Full name is required!");
