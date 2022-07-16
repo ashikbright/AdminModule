@@ -1,12 +1,12 @@
 package com.ashik.adminmodule;
 
-public class Admin {
+public class User {
     public String name, email, phone, isAdmin;
 
-    public Admin() {
+    public User() {
     }
 
-    public Admin(String name,String email, String phone, String isAdmin) {
+    public User(String name, String email, String phone, String isAdmin) {
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -14,7 +14,7 @@ public class Admin {
     }
 
 
-    public Admin(String name, String email, String phone) {
+    public User(String name, String email, String phone) {
         this.name = name;
         this.email = email;
         this.phone = phone;

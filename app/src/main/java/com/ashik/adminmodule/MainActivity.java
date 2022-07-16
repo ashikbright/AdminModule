@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -42,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ///   broadcastReceiver = new NetworkChangeListener();
         homeFragment = new HomeFragment();
-
         bottomNavigationView = findViewById(R.id.bottom_nav);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container,homeFragment).commit();
 
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Admin");
+        Log.d("logInfo", reference.toString());
         if (user != null){
             userID = user.getUid();
         }
@@ -84,14 +86,14 @@ public class MainActivity extends AppCompatActivity {
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Admin userData = snapshot.getValue(Admin.class);
+                User adminData = snapshot.getValue(User.class);
 
-                if (userData != null){
-                    name = userData.name;
-                    phone = userData.phone;
-                    email = userData.email;
+                if (adminData != null){
+                    name = adminData.name;
+                    phone = adminData.phone;
+                    email = adminData.email;
 
-                    SharedPreferences.Editor editor = getSharedPreferences("userInfo", MODE_PRIVATE).edit();
+                    SharedPreferences.Editor editor = getSharedPreferences("adminInfo", MODE_PRIVATE).edit();
                     editor.putString("name", name);
                     editor.putString("phone", phone);
                     editor.putString("email", email);
