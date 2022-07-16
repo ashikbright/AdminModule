@@ -1,7 +1,7 @@
 package com.ashik.adminmodule;
 
 public class User {
-    public String name, email, phone, isAdmin;
+    public String name, email, phone, isUser;
 
     public User() {
     }
@@ -10,7 +10,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.isAdmin = isAdmin;
+        this.isUser = isAdmin;
     }
 
 

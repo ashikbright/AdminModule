@@ -58,8 +58,12 @@ public class ProfileFragment extends Fragment {
         userImage = view.findViewById(R.id.user_imageView);
         storage = FirebaseStorage.getInstance();
 
+
+        Log.d("logInfo", mAuth.toString());
+
         storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
         progressBar.setVisibility(View.VISIBLE);
+        Toast.makeText(getActivity(), storageReference.toString(), Toast.LENGTH_LONG).show();
         loadProfileImageFromFirebase();
 
         try {
@@ -225,7 +229,6 @@ public class ProfileFragment extends Fragment {
         if (imageURI != null) {
 
             storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
-
 
             storageReference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

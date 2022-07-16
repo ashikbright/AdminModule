@@ -45,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         bottomNavigationView = findViewById(R.id.bottom_nav);
 
+        mAuth = FirebaseAuth.getInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container,homeFragment).commit();
+
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

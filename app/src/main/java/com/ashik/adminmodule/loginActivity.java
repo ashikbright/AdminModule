@@ -2,6 +2,7 @@ package com.ashik.adminmodule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +50,7 @@ public class loginActivity extends AppCompatActivity {
         errorMsg = findViewById(R.id.errorMsg);
 
         mAuth = FirebaseAuth.getInstance();
+        Log.d("logInfo",mAuth.toString());
 
 
 
@@ -79,14 +82,19 @@ public class loginActivity extends AppCompatActivity {
                         }
                         progressBar.setVisibility(View.GONE);
                     }
-                });
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("logInfo",  "Error: "+ e.toString());
+            }
+        });
 
 
     }
 
     private void checkUserAccessLevel(String uid) {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("User");
+        myRef = database.getReference("Admin");
         user = mAuth.getCurrentUser();
 
         myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
