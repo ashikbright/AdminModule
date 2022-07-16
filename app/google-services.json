@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "266005755124",
+    "firebase_url": "https://adminmodule-87132-default-rtdb.firebaseio.com",
+    "project_id": "adminmodule-87132",
+    "storage_bucket": "adminmodule-87132.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:266005755124:android:f9eb987b4631ccd2309aa1",
+        "android_client_info": {
+          "package_name": "com.ashik.adminmodule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "266005755124-b6mcsn06slf5hemskhvlg41utsjvqdtt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNlDSFlAU6TsrpWA3-PZ1UV_XJMEG23cc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "266005755124-b6mcsn06slf5hemskhvlg41utsjvqdtt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
