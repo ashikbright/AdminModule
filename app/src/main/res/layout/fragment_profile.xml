@@ -52,6 +52,7 @@
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/user_avatar"
+            android:background="@drawable/rounded_profile_background"
             app:civ_border_color="#FF000000"
             app:civ_border_width="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -70,8 +71,8 @@
 
         <RelativeLayout
             android:id="@+id/relativeLayout1"
-            android:layout_width="402dp"
-            android:layout_height="462dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="16dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,12 +85,13 @@
             <ListView
                 android:id="@+id/user_profile_list_view"
                 android:layout_width="match_parent"
-                android:layout_height="447dp"
+                android:layout_height="450dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="5dp"
                 tools:listitem="@layout/user_profile_single_row" />
 
         </RelativeLayout>
+
 
 
         <ProgressBar

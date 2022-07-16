@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "266005755124",
-    "project_id": "adminmodule-87132",
-    "storage_bucket": "adminmodule-87132.appspot.com"
+    "project_number": "70634309354",
+    "firebase_url": "https://admin-e280c-default-rtdb.firebaseio.com",
+    "project_id": "admin-e280c",
+    "storage_bucket": "admin-e280c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:266005755124:android:f9eb987b4631ccd2309aa1",
+        "mobilesdk_app_id": "1:70634309354:android:2a3959faf310fb8ed4b993",
         "android_client_info": {
           "package_name": "com.ashik.adminmodule"
         }
       },
       "oauth_client": [
         {
-          "client_id": "266005755124-b6mcsn06slf5hemskhvlg41utsjvqdtt.apps.googleusercontent.com",
+          "client_id": "70634309354-reo3mfk4co781vhtfrgh8k2eai3sk1mo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBNlDSFlAU6TsrpWA3-PZ1UV_XJMEG23cc"
+          "current_key": "AIzaSyAzBoouW3NjhUAzQspV2b78O_lBUoGxlg0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "266005755124-b6mcsn06slf5hemskhvlg41utsjvqdtt.apps.googleusercontent.com",
+              "client_id": "70634309354-reo3mfk4co781vhtfrgh8k2eai3sk1mo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

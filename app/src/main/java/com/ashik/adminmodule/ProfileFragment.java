@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         loadProfileImageFromFirebase();
         try {
-            SharedPreferences sp = requireActivity().getSharedPreferences("userInfo",MODE_PRIVATE);
+            SharedPreferences sp = requireActivity().getSharedPreferences("adminInfo",MODE_PRIVATE);
             name = sp.getString("name", name);
             phone = sp.getString("phone", phone);
             email = sp.getString("email", email);
@@ -126,15 +126,15 @@ public class ProfileFragment extends Fragment {
 
                 switch (selectedItemPosition){
                     case 1:
-                        Toast.makeText(getActivity(), "Name", Toast.LENGTH_SHORT).show();
+                        Log.d("listClick", "Name");
                         break;
 
                     case 2:
-                        Toast.makeText(getActivity(), "Phone", Toast.LENGTH_SHORT).show();
+                       Log.d("listClick", "Phone");
                         break;
 
                     case 3:
-                        Toast.makeText(getActivity(), "Email", Toast.LENGTH_SHORT).show();
+                       Log.d("listClick", "Email");
                         break;
 
                     case 4:
@@ -223,7 +223,7 @@ public class ProfileFragment extends Fragment {
 
         if (imageURI != null) {
 
-            storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
+            storageReference = storage.getReference().child("User/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
 
 
             storageReference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -249,7 +249,7 @@ public class ProfileFragment extends Fragment {
 
     private void loadProfileImageFromFirebase() {
 
-        storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
+        storageReference = storage.getReference().child("User/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
 
         ProgressDialog dialog = new ProgressDialog(getActivity());
         dialog.setTitle("Please Wait");
