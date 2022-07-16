@@ -31,7 +31,7 @@ public class WorkerMod extends AppCompatActivity {
        addprofile.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Intent intent=new Intent(WorkerMod.this,WorkerMgmt.class);
+               Intent intent=new Intent(WorkerMod.this, WorkerMgmt.class);
                startActivity(intent);
            }
        });

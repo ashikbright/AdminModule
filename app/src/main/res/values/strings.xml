@@ -28,22 +28,22 @@
     <string name="error">ERROR</string>
 
     <array name="worker_type">
+        <item>Labour</item>
         <item>Mistri</item>
         <item>Tiles/Marble Mistri</item>
         <item>Painter</item>
-        <item>Plumber</item>
         <item>Furniture Works</item>
-        <item>Electrician</item>
+        <item>Plumber</item>
         <item>Welder</item>
+        <item>Electrician</item>
     </array>
-
 
     <string name="local_workers">Local Workers</string>
     <string name="on_demand_services">On-Demand Services</string>
     <string name="_24_7_available">24/7 Available</string>
     <string name="todo">TODO</string>
-    <string name="puttur">Puttur</string>
-    <string name="worker_type">Worker Type</string>
+    <string name="worker_type">Worker Type:</string>
+    <string name="add_new_worker">Add New Worker</string>
 
 
 </resources>

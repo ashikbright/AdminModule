@@ -2,6 +2,7 @@ package com.ashik.adminmodule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -36,9 +37,7 @@ public class WorkerMgmt extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-
         btnRegisterUser = findViewById(R.id.createAccount);
-
         editName = findViewById(R.id.name);
         spinner=findViewById(R.id.edwtypes);
         editEmail = findViewById(R.id.email);
@@ -48,6 +47,10 @@ public class WorkerMgmt extends AppCompatActivity {
         progressBar = findViewById(R.id.register_progressBar);
         errorMsg = findViewById(R.id.errorMsg_register);
 
+        Intent mIntent = getIntent();
+        int selectedItem = mIntent.getIntExtra("itemSelected", 0);
+        spinner.setSelection(selectedItem);
+
 
         btnRegisterUser.setOnClickListener(v -> registerUser());
 
@@ -56,16 +59,13 @@ public class WorkerMgmt extends AppCompatActivity {
 
     private void registerUser() {
         String name = editName.getText().toString().trim();
-        String workertype=spinner.getSelectedItem().toString();
+        String workerType=spinner.getSelectedItem().toString();
         String email = editEmail.getText().toString();
         String phone = editPhone.getText().toString();
         String password1 = editPassword1.getText().toString().trim();
         String password2 = editPassword2.getText().toString().trim();
         String isWorker="1";
 
-        Intent mIntent = getIntent();
-        int selectedItem = mIntent.getIntExtra("itemSelected", 0);
-        spinner.setSelection(selectedItem);
 
         if (name.isEmpty()){
             editName.setError("Full name is required!");
