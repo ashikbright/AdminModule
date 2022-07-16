@@ -42,8 +42,8 @@
     <string name="on_demand_services">On-Demand Services</string>
     <string name="_24_7_available">24/7 Available</string>
     <string name="todo">TODO</string>
-    <string name="puttur">Puttur</string>
     <string name="worker_type">Worker Type</string>
+    <string name="add_new_worker">Add new Worker</string>
 
 
 </resources>

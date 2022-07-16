@@ -63,7 +63,6 @@ public class ProfileFragment extends Fragment {
 
         storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
         progressBar.setVisibility(View.VISIBLE);
-        Toast.makeText(getActivity(), storageReference.toString(), Toast.LENGTH_LONG).show();
         loadProfileImageFromFirebase();
 
         try {
