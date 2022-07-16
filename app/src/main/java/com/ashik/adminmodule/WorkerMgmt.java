@@ -2,7 +2,6 @@ package com.ashik.adminmodule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class WorkerMgmt extends AppCompatActivity {
     private TextView btnLogin, errorMsg;
-    private EditText editName, editEmail, editPhone, editPassword1, editPassword2;
+    private EditText editName, editEmail, editPhone, editPassword1, editPassword2,editaddress;
     private Spinner spinner;
     private Button btnRegisterUser;
     private ProgressBar progressBar;
@@ -46,6 +45,7 @@ public class WorkerMgmt extends AppCompatActivity {
         editPassword2 = findViewById(R.id.password2);
         progressBar = findViewById(R.id.register_progressBar);
         errorMsg = findViewById(R.id.errorMsg_register);
+        editaddress=findViewById(R.id.address);
 
         Intent mIntent = getIntent();
         int selectedItem = mIntent.getIntExtra("itemSelected", 0);
@@ -64,11 +64,18 @@ public class WorkerMgmt extends AppCompatActivity {
         String phone = editPhone.getText().toString();
         String password1 = editPassword1.getText().toString().trim();
         String password2 = editPassword2.getText().toString().trim();
+        String address=editaddress.getText().toString().trim();
         String isWorker="1";
 
 
         if (name.isEmpty()){
             editName.setError("Full name is required!");
+            editName.requestFocus();
+            return;
+        }
+
+        if (address.isEmpty()){
+            editName.setError("Address is required!");
             editName.requestFocus();
             return;
         }
@@ -131,7 +138,7 @@ public class WorkerMgmt extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()){
-                            Workers workers=new Workers(name,email,phone,isWorker);
+                            Workers workers=new Workers(name,email,phone,isWorker,address);
                             FirebaseDatabase.getInstance().getReference("Workers")
                                     .child(spinner.getSelectedItem().toString())
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
