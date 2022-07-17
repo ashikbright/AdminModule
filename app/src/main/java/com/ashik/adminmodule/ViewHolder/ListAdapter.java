@@ -1,4 +1,4 @@
-package com.ashik.adminmodule;
+package com.ashik.adminmodule.ViewHolder;
 
 
 import android.content.Context;
@@ -9,12 +9,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ashik.adminmodule.R;
+
 
 public class ListAdapter extends BaseAdapter {
 
     Context context;
-    String itemName[], listItems[];
-    int imageIDs[];
+    String[] itemName;
+    String[] listItems;
+    int[] imageIDs;
 
     LayoutInflater inflater;
 
