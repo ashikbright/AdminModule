@@ -2,14 +2,11 @@ package com.ashik.adminmodule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class WorkerMod extends AppCompatActivity {
-    Button addprofile;
 
     ImageButton imgBtnLabour, imgBtnMistri, imgBtnTiles, imgBtnPaint, imgBtnFurniture, imgBtnPlumber, imgBtnWelder, imgBtnElectrician;
 
@@ -18,7 +15,7 @@ public class WorkerMod extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_worker_mod);
-        addprofile=findViewById(R.id.createwprofile);
+
 
         imgBtnLabour=findViewById(R.id.imgbtn_labour);
         imgBtnMistri=findViewById(R.id.imgbtn_mistri);
@@ -28,13 +25,6 @@ public class WorkerMod extends AppCompatActivity {
         imgBtnPlumber=findViewById(R.id.imgbtn_plumber);
         imgBtnWelder=findViewById(R.id.imgbtn_plumber2);
         imgBtnElectrician=findViewById(R.id.imgbtn_plumber3);
-       addprofile.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent intent=new Intent(WorkerMod.this, WorkerMgmt.class);
-               startActivity(intent);
-           }
-       });
 
         imgBtnLabour.setOnClickListener(v -> confirmOrder(0));
 
@@ -54,7 +44,7 @@ public class WorkerMod extends AppCompatActivity {
 
     }
     private  void confirmOrder(int selectedItem) {
-        Intent intent = new Intent(WorkerMod.this, WorkerMgmt.class);
+        Intent intent = new Intent(WorkerMod.this, WorkerMain.class);
         intent.putExtra("itemSelected", selectedItem);
         startActivity(intent);
     }

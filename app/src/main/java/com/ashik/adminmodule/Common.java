@@ -11,5 +11,39 @@ public class Common {
 
     public static Uri userProfileImage;
 
+    public static String getSelectedWorkerType(int selectedItem) {
+        String selectedItemName = "";
+
+        switch (selectedItem)
+        {
+            case 0:
+                selectedItemName  = "Labour";
+                break;
+            case 1:
+                selectedItemName  = "Mistri";
+                break;
+            case 2:
+                selectedItemName  = "Tiles/Marble Mistri";
+                break;
+            case 3:
+                selectedItemName  = "Painter";
+                break;
+            case 4:
+                selectedItemName  = "Furniture Works";
+                break;
+            case 5:
+                selectedItemName  = "Plumber";
+                break;
+            case 6:
+                selectedItemName  = "Welder";
+                break;
+            case 7:
+                selectedItemName  = "Electrician";
+                break;
+        }
+
+
+        return selectedItemName;
+    }
 
 }

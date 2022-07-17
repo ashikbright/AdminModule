@@ -15,12 +15,14 @@ public class DispAdapter extends RecyclerView.Adapter<DispAdapter.MyViewHolder> 
    Context context;
    ArrayList<Workers> list;
 
-    public DispAdapter(WorkerMain workerMain, ArrayList<Workers> list) {
+    public DispAdapter(Context context, ArrayList<Workers> list) {
+        this.context=context;
+        this.list=list;
     }
 
     @NonNull
     @Override
-    public DispAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(context).inflate(R.layout.workerdisplay,parent,false);
         return new MyViewHolder(v);
     }

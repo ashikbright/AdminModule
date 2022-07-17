@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +40,10 @@ public class WorkerMain extends AppCompatActivity {
         recyclerView=findViewById(R.id.recyclerview);
         add=findViewById(R.id.btnadd);
         remove=findViewById(R.id.btnremove);
-        databaseReference= FirebaseDatabase.getInstance().getReference("Workers");
+        Intent mIntent = getIntent();
+        int selectedItem = mIntent.getIntExtra("itemSelected", 0);
+        String selectedItemString = Common.getSelectedWorkerType(selectedItem);
+        databaseReference= FirebaseDatabase.getInstance().getReference("Workers").child(selectedItemString);
         list=new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter=new DispAdapter(this,list);
@@ -64,9 +68,17 @@ public class WorkerMain extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(WorkerMain.this,WorkerMod.class);
+                Intent intent=new Intent(WorkerMain.this,WorkerMgmt.class);
                 startActivity(intent);
             }
         });
+
+        remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(WorkerMain.this, "You Clicked on Remove!!!!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 }

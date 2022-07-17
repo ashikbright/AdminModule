@@ -249,7 +249,7 @@ public class ProfileFragment extends Fragment {
 
     private void loadProfileImageFromFirebase() {
 
-        storageReference = storage.getReference().child("User/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
+        storageReference = storage.getReference().child("Admin/" + FirebaseAuth.getInstance().getUid() + "/profile.jpg");
 
         ProgressDialog dialog = new ProgressDialog(getActivity());
         dialog.setTitle("Please Wait");
