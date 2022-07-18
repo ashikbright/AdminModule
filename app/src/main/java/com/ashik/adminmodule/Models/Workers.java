@@ -1,4 +1,4 @@
-package com.ashik.adminmodule;
+package com.ashik.adminmodule.Models;
 
 public class Workers {
     public String name;

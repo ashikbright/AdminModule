@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.ashik.adminmodule.Common.Common;
+import com.ashik.adminmodule.Models.Workers;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -49,8 +51,8 @@ public class WorkerMgmt extends AppCompatActivity {
 
         Intent mIntent = getIntent();
         int selectedItem = mIntent.getIntExtra("itemSelected", 0);
-        spinner.setSelection(selectedItem);
 
+        spinner.setSelection(selectedItem);
 
         btnRegisterUser.setOnClickListener(v -> registerUser());
 
