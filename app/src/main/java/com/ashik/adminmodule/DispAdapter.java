@@ -44,7 +44,7 @@ public class DispAdapter extends RecyclerView.Adapter<DispAdapter.MyViewHolder> 
     /*holder.dltworker.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            FirebaseDatabase.getInstance().getReference("Workers").child("selectedItemString").child(getRef().getKey());
+            FirebaseDatabase.getInstance().getReference("Workers").child("selectedItemString").child(databaseReference(position).getKey());
         }
     });*/
     }
