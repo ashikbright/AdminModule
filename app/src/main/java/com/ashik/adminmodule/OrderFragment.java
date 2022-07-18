@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 
 import com.ashik.adminmodule.Common.Common;
 import com.ashik.adminmodule.Models.User;
-import com.ashik.adminmodule.Interface.RecyclerViewInterface;
 import com.ashik.adminmodule.ViewHolder.orderRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +26,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Map;
 
 
 public class OrderFragment extends Fragment{
@@ -116,6 +114,8 @@ public class OrderFragment extends Fragment{
 
         return view;
     }
+
+
 
     private void sortOrders() {
         Collections.sort(userList, new Comparator<User>() {
