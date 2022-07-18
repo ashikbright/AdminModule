@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +23,7 @@ public class WorkerMain extends AppCompatActivity {
     ArrayList<Workers> list;
     DatabaseReference databaseReference;
     DispAdapter adapter;
-    Button add,remove;
+    Button add;
 
     @Override
     public void onBackPressed() {
@@ -39,10 +38,11 @@ public class WorkerMain extends AppCompatActivity {
         setContentView(R.layout.activity_worker_main);
         recyclerView=findViewById(R.id.recyclerview);
         add=findViewById(R.id.btnadd);
-        remove=findViewById(R.id.btnremove);
+
         Intent mIntent = getIntent();
         int selectedItem = mIntent.getIntExtra("itemSelected", 0);
         String selectedItemString = Common.getSelectedWorkerType(selectedItem);
+
         databaseReference= FirebaseDatabase.getInstance().getReference("Workers").child(selectedItemString);
         list=new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -73,12 +73,9 @@ public class WorkerMain extends AppCompatActivity {
             }
         });
 
-        remove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(WorkerMain.this, "You Clicked on Remove!!!!", Toast.LENGTH_SHORT).show();
-            }
-        });
+
     }
+
+
 
 }

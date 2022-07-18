@@ -46,4 +46,9 @@ public class Common {
         return selectedItemName;
     }
 
+    public static String getEmail(String email){
+
+        return email;
+    }
+
 }
