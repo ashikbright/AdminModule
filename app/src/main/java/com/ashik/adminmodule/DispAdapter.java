@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ashik.adminmodule.Models.Workers;
+
 import java.util.ArrayList;
 
 public class DispAdapter extends RecyclerView.Adapter<DispAdapter.MyViewHolder> {
