@@ -109,4 +109,11 @@
 
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/deleteworker"
+        android:layout_width="62dp"
+        android:layout_height="68dp"
+        android:layout_gravity="right"
+        app:srcCompat="@drawable/ic_baseline_delete_forever_24" />
+
 </androidx.cardview.widget.CardView>

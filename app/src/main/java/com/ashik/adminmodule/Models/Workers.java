@@ -3,7 +3,7 @@ package com.ashik.adminmodule.Models;
 public class Workers {
     public String name;
     public String workertype;
-    public String email;
+    public  String email;
     public String phone;
     public String isWorker;
     public String address;
@@ -12,7 +12,7 @@ public class Workers {
         return name;
     }
 
-    public String getEmail() {
+    public  String getEmail() {
         return email;
     }
 
@@ -61,4 +61,8 @@ public class Workers {
         this.phone = phone;
     }
 
+    public Workers(String email) {
+
+        this.email = email;
+    }
 }

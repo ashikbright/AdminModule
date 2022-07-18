@@ -16,6 +16,11 @@ import java.util.ArrayList;
 public class DispAdapter extends RecyclerView.Adapter<DispAdapter.MyViewHolder> {
    Context context;
    ArrayList<Workers> list;
+  // DatabaseReference databaseReference;
+
+   // Intent mIntent = getIntent();
+   // int selectedItem = mIntent.getIntExtra("itemSelected", 0);
+   // String selectedItemString = Common.getSelectedWorkerType(selectedItem);
 
     public DispAdapter(Context context, ArrayList<Workers> list) {
         this.context=context;
@@ -39,6 +44,12 @@ public class DispAdapter extends RecyclerView.Adapter<DispAdapter.MyViewHolder> 
     holder.worktype.setText(workers.getWorkertype());
     holder.email.setText(workers.getEmail());
     holder.address.setText(workers.getAddress());
+    /*holder.dltworker.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            FirebaseDatabase.getInstance().getReference("Workers").child("selectedItemString").child(databaseReference(position).getKey());
+        }
+    });*/
     }
 
     @Override
@@ -48,12 +59,14 @@ public class DispAdapter extends RecyclerView.Adapter<DispAdapter.MyViewHolder> 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name,worktype,email,address;
+       // ImageView dltworker;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.wname);
             worktype=itemView.findViewById(R.id.wtype);
             email=itemView.findViewById(R.id.wemail);
             address=itemView.findViewById(R.id.waddress);
+           // dltworker=itemView.findViewById(R.id.deleteworker);
         }
     }
 }

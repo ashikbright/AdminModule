@@ -139,7 +139,7 @@ public class WorkerMgmt extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()){
-                            Workers workers=new Workers(name,email,phone,isWorker,address);
+                            Workers workers=new Workers(name,workerType,email,phone,isWorker,address);
                             FirebaseDatabase.getInstance().getReference("Workers")
                                     .child(spinner.getSelectedItem().toString())
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
