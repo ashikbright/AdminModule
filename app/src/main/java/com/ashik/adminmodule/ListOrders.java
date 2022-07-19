@@ -63,6 +63,7 @@ public class ListOrders extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ListOrders.this, MainActivity.class);
+                intent.putExtra("openBookings", 2);
                 startActivity(intent);
                 finish();
             }

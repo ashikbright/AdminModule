@@ -1,6 +1,7 @@
 package com.ashik.adminmodule;
 
 import android.content.BroadcastReceiver;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,13 +30,14 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment;
+    private OrderFragment orderFragment;
     private BroadcastReceiver broadcastReceiver;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private DatabaseReference reference;
     private String userID = "";
     private String name, phone, email;
-
+    private int selectedFragmentID;
 
 
     @Override
@@ -44,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ///   broadcastReceiver = new NetworkChangeListener();
         homeFragment = new HomeFragment();
+        orderFragment = new OrderFragment();
         bottomNavigationView = findViewById(R.id.bottom_nav);
-
         mAuth = FirebaseAuth.getInstance();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container,homeFragment).commit();
+
+        loadDefaultFragment();
 
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -76,6 +78,24 @@ public class MainActivity extends AppCompatActivity {
         });
         saveData();
     }
+
+    private void loadDefaultFragment() {
+
+        Intent intent = getIntent();
+        selectedFragmentID = intent.getIntExtra("openBookings", 1);
+
+            if (selectedFragmentID == 1){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container,homeFragment).commit();
+            }
+            else if(selectedFragmentID == 2){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container,orderFragment).commit();
+
+            }
+    }
+
+
     private void saveData() {
 
         mAuth = FirebaseAuth.getInstance();

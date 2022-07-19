@@ -114,6 +114,8 @@ public class OrderFragment extends Fragment{
         return view;
     }
 
+
+
     private void sortOrders() {
         Collections.sort(userList, new Comparator<User>() {
             @Override

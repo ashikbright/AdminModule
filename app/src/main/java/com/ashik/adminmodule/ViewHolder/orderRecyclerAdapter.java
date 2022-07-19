@@ -60,7 +60,6 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
             txtPhone = itemView.findViewById(R.id.client_phone);
             txtEmail = itemView.findViewById(R.id.client_email);
             txtTotalOrders = itemView.findViewById(R.id.order_count);
-            txtClientID = itemView.findViewById(R.id.client_id);
             mCardView = itemView.findViewById(R.id.orders_item_layout_card_view);
 
             mCardView.setOnCreateContextMenuListener(this);
@@ -106,7 +105,6 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
         holder.txtEmail.setText(userInfo.getEmail());
 
         userId = userInfo.getUserID();
-        holder.txtClientID.setText(userId);
 
         orderRef = FirebaseDatabase.getInstance().getReference().child("Orders");
         DatabaseReference ordersCountRef =  orderRef.child(userId).child("orderRequests");
@@ -143,31 +141,13 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
         return userList.size();
     }
 
-    public String countTotalOrders(String userId) {
 
-        orderRef = FirebaseDatabase.getInstance().getReference().child("Orders");
-        DatabaseReference ordersCountRef =  orderRef.child(userId).child("orderRequests");
-
-        ordersCountRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("ColumnExist", "ERROR : " + error);
-            }
-        });
-
-        return "";
-    }
 
     public void callClient(int position){
         User user = userList.get(position);
         String phone = user.getPhone();
 
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
         callIntent.setData(Uri.parse("tel:" + phone));
         context.startActivity(callIntent);
 

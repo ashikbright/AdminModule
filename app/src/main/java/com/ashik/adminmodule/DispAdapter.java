@@ -27,6 +27,9 @@ public class DispAdapter extends RecyclerView.Adapter<DispAdapter.MyViewHolder> 
         this.list=list;
     }
 
+    public DispAdapter(WorkerMain context, ArrayList<Workers> list) {
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

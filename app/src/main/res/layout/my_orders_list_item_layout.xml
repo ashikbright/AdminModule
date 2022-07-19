@@ -38,15 +38,27 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/client_phone"
+                android:id="@+id/txtPhone1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="+91"
                 android:layout_marginTop="3dp"
-                android:text="Phone"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@+id/textView1"
                 app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+            <TextView
+                android:id="@+id/client_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone"
+                android:layout_marginStart="1dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/txtPhone1"
+                app:layout_constraintStart_toEndOf="@+id/txtPhone1"
+                app:layout_constraintTop_toTopOf="@+id/txtPhone1" />
 
             <TextView
                 android:id="@+id/client_email"
@@ -59,29 +71,6 @@
                 app:layout_constraintStart_toStartOf="@+id/textView1"
                 app:layout_constraintTop_toBottomOf="@+id/client_phone" />
 
-            <TextView
-                android:id="@+id/txtView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Client ID:"
-                android:layout_marginTop="3dp"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/textView1"
-                app:layout_constraintTop_toBottomOf="@+id/client_email" />
-
-
-            <TextView
-                android:id="@+id/client_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="User ID"
-                android:textColor="#000000"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txtView10"
-                app:layout_constraintLeft_toRightOf="@id/txtView10"
-                app:layout_constraintTop_toTopOf="@+id/txtView10" />
 
             <TextView
                 android:id="@+id/client_name"
