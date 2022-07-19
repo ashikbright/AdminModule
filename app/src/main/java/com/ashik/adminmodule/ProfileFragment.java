@@ -140,7 +140,7 @@ public class ProfileFragment extends Fragment {
                         break;
 
                     case 4:
-                        Intent intent=new Intent(getActivity(),WorkerMod.class);
+                        Intent intent=new Intent(getActivity(), WorkerDetailsHome.class);
                         startActivity(intent);
                         break;
 

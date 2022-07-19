@@ -6,15 +6,22 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class WorkerMod extends AppCompatActivity {
+public class WorkerDetailsHome extends AppCompatActivity {
 
     ImageButton imgBtnLabour, imgBtnMistri, imgBtnTiles, imgBtnPaint, imgBtnFurniture, imgBtnPlumber, imgBtnWelder, imgBtnElectrician;
 
 
+//    @Override
+//    public void onBackPressed() {
+//        startActivity(new Intent(WorkerDetailsHome.this,HomeFragment.class));
+//        finish();
+//        super.onBackPressed();
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_worker_mod);
+        setContentView(R.layout.activity_home_details_worker);
 
 
         imgBtnLabour=findViewById(R.id.imgbtn_labour);
@@ -42,9 +49,13 @@ public class WorkerMod extends AppCompatActivity {
 
         imgBtnElectrician.setOnClickListener(v -> confirmOrder(7));
 
+
+
     }
+
+
     private  void confirmOrder(int selectedItem) {
-        Intent intent = new Intent(WorkerMod.this, WorkerMain.class);
+        Intent intent = new Intent(WorkerDetailsHome.this, WorkersDetails.class);
         intent.putExtra("itemSelected", selectedItem);
         startActivity(intent);
     }

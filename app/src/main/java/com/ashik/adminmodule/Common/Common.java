@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.ashik.adminmodule.Models.User;
 
-import java.util.ArrayList;
-
 public class Common {
 
     public static User CurrentUser;

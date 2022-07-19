@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ashik.adminmodule.Common.Common;
+import com.ashik.adminmodule.Models.Workers;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class WorkerMain extends AppCompatActivity {
+public class WorkersDetails extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<Workers> list;
     DatabaseReference databaseReference;
@@ -28,14 +30,14 @@ public class WorkerMain extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(WorkerMain.this,ProfileFragment.class));
+        startActivity(new Intent(WorkersDetails.this,WorkerDetailsHome.class));
         finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_worker_main);
+        setContentView(R.layout.activity_details_workers);
         recyclerView=findViewById(R.id.recyclerview);
         add=findViewById(R.id.btnadd);
 
@@ -68,7 +70,7 @@ public class WorkerMain extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(WorkerMain.this,WorkerMgmt.class);
+                Intent intent=new Intent(WorkersDetails.this, WorkerRegistration.class);
                 startActivity(intent);
             }
         });

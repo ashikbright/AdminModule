@@ -15,9 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WorkerMain"></activity>
-        <activity android:name=".WorkerMod" />
-        <activity android:name=".WorkerMgmt" />
+        <activity android:name=".WorkersDetails" />
+        <activity android:name=".ListOrders" />
+        <activity android:name=".WorkerDetailsHome" />
+        <activity android:name=".WorkerRegistration" />
         <activity android:name=".loginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
