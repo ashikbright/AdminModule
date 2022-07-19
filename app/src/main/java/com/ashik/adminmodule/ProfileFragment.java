@@ -64,7 +64,7 @@ public class ProfileFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         loadProfileImageFromFirebase();
         try {
-            SharedPreferences sp = requireActivity().getSharedPreferences("adminInfo",MODE_PRIVATE);
+            SharedPreferences sp = requireActivity().getSharedPreferences("adminInfo", MODE_PRIVATE);
             name = sp.getString("name", name);
             phone = sp.getString("phone", phone);
             email = sp.getString("email", email);

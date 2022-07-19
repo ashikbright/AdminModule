@@ -15,23 +15,26 @@ public class Common {
 
     public static int orderCount;
 
+    public static String CURRENT_ORDER_STATUS;
+
     public static String checkStatus(String status_code) {
 
         String st = "N/A";
 
         if (status_code.equals("0")) {
-            st = "Order Placed";
-        } else if (status_code.equals("1")) {
             st = "Pending";
-        } else if (status_code.equals("2")) {
+        } else if (status_code.equals("1")) {
             st = "Accepted";
+        } else if (status_code.equals("2")) {
+            st = "Cancelled";
         } else if (status_code.equals("3")) {
-            st = "cancelled";
+            st = "Order placed";
         }
 
         Log.d("statusCheck", "conditions not met , status is: " + st);
-        return st;
+        CURRENT_ORDER_STATUS = st;
 
+        return CURRENT_ORDER_STATUS;
     }
 
     public static String getSelectedWorkerType(int selectedItem) {
@@ -67,6 +70,14 @@ public class Common {
 
 
         return selectedItemName;
+    }
+
+    public static String getCurrentOrderStatus() {
+        return CURRENT_ORDER_STATUS;
+    }
+
+    public static void setCurrentOrderStatus(String currentOrderStatus) {
+        CURRENT_ORDER_STATUS = currentOrderStatus;
     }
 }
 
