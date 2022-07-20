@@ -19,23 +19,26 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static android.content.ContentValues.TAG;
 
 public class ListOrderRecyclerAdapter extends RecyclerView.Adapter<ListOrderRecyclerAdapter.OrderViewHolder> {
 
     Context context;
     ArrayList<Order> orderList;
-    ArrayList<Order> orderListBackup;
     private int orderCount = 0;
     DatabaseReference orderRef;
 
 
-    public ListOrderRecyclerAdapter(Context context, ArrayList<Order> orderList, ArrayList<Order> orderListBackUp) {
+    public ListOrderRecyclerAdapter(Context context, ArrayList<Order> orderList) {
         this.context = context;
         this.orderList = orderList;
-        this.orderListBackup = orderListBackUp;
     }
 
     public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
@@ -93,42 +96,55 @@ public class ListOrderRecyclerAdapter extends RecyclerView.Adapter<ListOrderRecy
 
     public void updateOrder(int position, String statusCode, String userID) {
 
-        Order CurrentOrder = orderListBackup.get(position);
+        Order CurrentOrder = orderList.get(position);
         CurrentOrder.setStatus(statusCode);
         Common.setCurrentOrderStatus(statusCode);
 
-        orderRef = FirebaseDatabase.getInstance().getReference().child("Orders").child(userID).child("orderRequests");
+        orderRef = FirebaseDatabase.getInstance().getReference().child("Orders").child(userID);
+        String orderID = CurrentOrder.getOrderId();
 
-        updateStatusInFirebase(statusCode, position);
+        updateStatusInFirebase(statusCode, CurrentOrder, orderID);
+        orderList.clear();
         notifyDataSetChanged();
     }
 
-    private void updateStatusInFirebase(String statusCode, int position) {
+    private void updateStatusInFirebase(String statusCode, Order currentOrder, String orderID) {
 
-//        orderRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                if (snapshot.exists()){
-//                    orderCount =  (int) snapshot.getChildrenCount();
-//                }
-//                else{
-//                    Log.d("ColumnExist", "Not found");
-//                }
-//                String orderText = Integer.toString(orderCount);
-//                Log.d("ColumnExist", "order count: " + orderText);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Log.d("ColumnExist", "ERROR : " + error);
-//            }
-//        });
-         position+= 1;
-        DatabaseReference reference = orderRef.child(String.valueOf(position));
-        reference.child("status").setValue(statusCode);
 
-        Log.d("positionCheck", "position: " + position);
+        Query query = orderRef.child("orderRequests").orderByChild("orderId").equalTo(orderID);
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String key = ds.getKey();
+                    Log.d("parentKey" , "order id :" + key);
+                    Log.d("parentKey" , "status code :" + statusCode);
+
+                    if (key != null) {
+                        Map<String, Object> updates = new HashMap<String,Object>();
+                        updates.put("status", currentOrder.getStatus());
+
+                        orderRef.child("orderRequests").child(key).updateChildren(updates);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage());
+            }
+        };
+        query.addListenerForSingleValueEvent(valueEventListener);
+
+
+
+
+//         position+= 1;
+//        DatabaseReference reference = orderRef.child(String.valueOf(position));
+//        reference.child("status").setValue(statusCode);
+
 
 
     }

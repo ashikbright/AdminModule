@@ -21,6 +21,7 @@ import android.widget.Spinner;
 
 import com.ashik.adminmodule.Models.Order;
 import com.ashik.adminmodule.ViewHolder.ListOrderRecyclerAdapter;
+import com.ashik.adminmodule.ViewHolder.orderRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +42,6 @@ public class ListOrders extends AppCompatActivity {
     public DatabaseReference order;
     public ListOrderRecyclerAdapter myAdapter;
     public ArrayList<Order> orderList;
-    public ArrayList<Order> orderListBackUp;
     public String statusCode = "0";
 
 
@@ -52,7 +52,7 @@ public class ListOrders extends AppCompatActivity {
         setContentView(R.layout.activity_list_orders);
 
         Intent intent = getIntent();
-        userID = intent.getStringExtra("workerID");
+        userID = intent.getStringExtra("userID");
 
         imageButton = findViewById(R.id.btn_back);
         database = FirebaseDatabase.getInstance();
@@ -64,8 +64,7 @@ public class ListOrders extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         orderList = new ArrayList<>();
-        orderListBackUp = new ArrayList<>();
-        myAdapter = new ListOrderRecyclerAdapter(this, orderList, orderListBackUp);
+        myAdapter = new ListOrderRecyclerAdapter(this, orderList);
         recyclerView.setAdapter(myAdapter);
 
 
@@ -95,7 +94,7 @@ public class ListOrders extends AppCompatActivity {
                         Order myOrder = dataSnapshot.getValue(Order.class);
                         orderList.add(myOrder);
                     }
-                    orderListBackUp = orderList;
+
                     sortOrders();
                     myAdapter.notifyDataSetChanged();
                     Log.d("orderData", "data received successfully");

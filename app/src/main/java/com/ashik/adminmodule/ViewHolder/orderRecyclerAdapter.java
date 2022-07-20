@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdapter.OrderViewHolder> {
 
@@ -37,6 +38,8 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
     public orderRecyclerAdapter(Context context, ArrayList<User> orderList) {
         this.context = context;
         this.userList = orderList;
+
+        clearList();
     }
 
     public interface OnItemClickListener{
@@ -75,6 +78,7 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
                     }
                 }
             });
+
 
         }
 
@@ -167,6 +171,11 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
     }
 
 
+    public void clearList(){
+        HashSet<User> hashSet = new HashSet<User>(userList);
+        userList.clear();
+        userList.addAll(hashSet);
+    }
 
 
 
