@@ -15,6 +15,8 @@ import com.ashik.adminmodule.Common.Common;
 import com.ashik.adminmodule.Models.Order;
 import com.ashik.adminmodule.Models.User;
 import com.ashik.adminmodule.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -124,7 +126,6 @@ public class ListOrderRecyclerAdapter extends RecyclerView.Adapter<ListOrderRecy
                     if (key != null) {
                         Map<String, Object> updates = new HashMap<String,Object>();
                         updates.put("status", currentOrder.getStatus());
-
                         orderRef.child("orderRequests").child(key).updateChildren(updates);
                     }
                 }
@@ -140,18 +141,55 @@ public class ListOrderRecyclerAdapter extends RecyclerView.Adapter<ListOrderRecy
 
 
 
+    }
 
-//         position+= 1;
-//        DatabaseReference reference = orderRef.child(String.valueOf(position));
-//        reference.child("status").setValue(statusCode);
+    public void deleteOrder(int position, String userID) {
 
+        Order CurrentOrder = orderList.get(position);
 
+        orderRef = FirebaseDatabase.getInstance().getReference().child("Orders").child(userID);
+        String orderID = CurrentOrder.getOrderId();
+
+        updateOrderInFirebase(CurrentOrder, orderID);
+        orderList.clear();
+        notifyDataSetChanged();
 
     }
 
-    public void deleteClient(int position) {
-        Order CurrentOrder = orderList.get(position);
+    private void updateOrderInFirebase(Order currentOrder, String orderID) {
 
+        Query query = orderRef.child("orderRequests").orderByChild("orderId").equalTo(orderID);
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String key = ds.getKey();
+                    Log.d("parentKey" , "order id :" + key);
+
+                    if (key != null) {
+                        orderRef.child("orderRequests").child(key).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()){
+                                    Log.d("deleteStatus", "successfully deleted.");
+                                }
+                                else {
+                                    Log.d("deleteStatus", "not deleted.");
+                                }
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage());
+            }
+        };
+        query.addListenerForSingleValueEvent(valueEventListener);
     }
 
 
