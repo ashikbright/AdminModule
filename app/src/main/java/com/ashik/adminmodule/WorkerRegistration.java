@@ -22,7 +22,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class WorkerMgmt extends AppCompatActivity {
+public class WorkerRegistration extends AppCompatActivity {
     private TextView btnLogin, errorMsg;
     private EditText editName, editEmail, editPhone, editPassword1, editPassword2,editaddress;
     private Spinner spinner;
@@ -33,7 +33,7 @@ public class WorkerMgmt extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_worker_mgmt);
+        setContentView(R.layout.activity_registration_worker);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -148,14 +148,14 @@ public class WorkerMgmt extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
 
                                     if(task.isSuccessful()){
-                                        Toast.makeText(WorkerMgmt.this, "Worker has registered successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(WorkerRegistration.this, "Worker has registered successfully", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.VISIBLE);
-                                        Intent intent = new Intent(WorkerMgmt.this, loginActivity.class);
+                                        Intent intent = new Intent(WorkerRegistration.this, loginActivity.class);
                                         startActivity(intent);
                                     }
                                     else{
-                                        Toast.makeText(WorkerMgmt.this, "Failed to register! try again.", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(WorkerMgmt.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(WorkerRegistration.this, "Failed to register! try again.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(WorkerRegistration.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                     progressBar.setVisibility(View.GONE);
 
@@ -163,8 +163,8 @@ public class WorkerMgmt extends AppCompatActivity {
                             });
 
                         }else{
-                            Toast.makeText(WorkerMgmt.this, "Failed to register! try again.", Toast.LENGTH_SHORT).show();
-                            Toast.makeText(WorkerMgmt.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WorkerRegistration.this, "Failed to register! try again.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WorkerRegistration.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
                     }
