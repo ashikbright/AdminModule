@@ -5,16 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.ashik.adminmodule.Models.Order;
 import com.ashik.adminmodule.ViewHolder.ListOrderRecyclerAdapter;
+import com.ashik.adminmodule.ViewHolder.orderRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,13 +35,15 @@ import java.util.Comparator;
 public class ListOrders extends AppCompatActivity {
 
     private String userID;
-    private ImageView imageView;
+//    private ImageButton imageButton;
     private RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
     public FirebaseDatabase database;
     public DatabaseReference order;
     public ListOrderRecyclerAdapter myAdapter;
     public ArrayList<Order> orderList;
+    public String statusCode = "0";
+
 
 
     @Override
@@ -43,9 +52,9 @@ public class ListOrders extends AppCompatActivity {
         setContentView(R.layout.activity_list_orders);
 
         Intent intent = getIntent();
-        userID = intent.getStringExtra("workerID");
+        userID = intent.getStringExtra("userID");
 
-        imageView = findViewById(R.id.btn_back);
+//        imageButton = findViewById(R.id.btn_back);
         database = FirebaseDatabase.getInstance();
         order = database.getReference("Orders");
 
@@ -59,15 +68,15 @@ public class ListOrders extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter);
 
 
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ListOrders.this, MainActivity.class);
-                intent.putExtra("openBookings", 2);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        imageButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(ListOrders.this, MainActivity.class);
+//                intent.putExtra("openBookings", 2);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 
 
         ProgressDialog dialog = new ProgressDialog(this);
@@ -119,4 +128,111 @@ public class ListOrders extends AppCompatActivity {
         Collections.reverse(orderList);
     }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case 131:
+                Log.d("selectedItem", "updating order...");
+                showUpdateSpinner(item);
+//                myAdapter.updateOrder(item.getGroupId());
+                return true;
+            case 132:
+                deleteOrder(item);
+                return true;
+            default:  return super.onContextItemSelected(item);
+        }
+    }
+
+
+    private void showUpdateSpinner(MenuItem item) {
+
+        String[] order_status = {
+                "Pending", "Accept Order", "Cancel Order"
+        };
+
+        ArrayAdapter<String> dataAdapter =
+                new ArrayAdapter<String>(this, R.layout.order_update_status_layout, order_status);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        final Spinner spinner = new Spinner(ListOrders.this);
+        spinner.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        spinner.setPadding(3,3,3,3);
+        spinner.setAdapter(dataAdapter);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ListOrders.this);
+        builder.setTitle("Update Order");
+        builder.setView(spinner);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String selectedStatus = spinner.getSelectedItem().toString();
+                statusCode =  updateStatus(selectedStatus);
+                myAdapter.updateOrder(item.getGroupId(), statusCode, userID);
+                Log.d("selectedStatus " , "status: " + statusCode );
+
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("selectedItem", "operation cancelled.");
+            }
+        });
+
+        builder.create().show();
+
+    }
+
+    private String updateStatus(String selectedStatus) {
+
+        if (selectedStatus.equals("Pending")){
+            statusCode = "0";
+            Log.d("selectedStatus " , "status: " + statusCode );
+        }
+        else if(selectedStatus.equals("Accept Order")){
+            statusCode = "1";
+            Log.d("selectedStatus " , "status: " + statusCode );
+        }
+        else if(selectedStatus == "Cancel Order"){
+            statusCode = "2";
+            Log.d("selectedStatus " , "status: " + statusCode );
+        }
+        else {
+            statusCode = "3";
+            Log.d("selectedStatus " , "status: pending");
+        }
+
+        return statusCode;
+    }
+
+    private void deleteOrder(MenuItem item) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(ListOrders.this);
+        dialog.setTitle("Delete");
+        dialog.setMessage("Are you sure you want to delete \nOnce deleted cannot be reverted.");
+        dialog.setIcon(R.drawable.ic_dialog_alert);
+
+
+        dialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                myAdapter.deleteOrder(item.getGroupId(), userID);
+            }
+        });
+
+        dialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("selectedItem", "operation cancelled.");
+            }
+        });
+
+        dialog.create().show();
+
+
+
+    }
 }
