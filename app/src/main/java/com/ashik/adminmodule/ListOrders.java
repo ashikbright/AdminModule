@@ -113,7 +113,7 @@ public class ListOrders extends AppCompatActivity {
         }
 
         Handler handler = new Handler();
-        handler.postDelayed(dialog::dismiss, 300);
+        handler.postDelayed(dialog::dismiss, 500);
 
     }
 
@@ -134,11 +134,12 @@ public class ListOrders extends AppCompatActivity {
             case 131:
                 Log.d("selectedItem", "updating order...");
                 showUpdateSpinner(item);
-//                myAdapter.updateOrder(item.getGroupId());
                 return true;
+
             case 132:
                 deleteOrder(item);
                 return true;
+
             default:  return super.onContextItemSelected(item);
         }
     }

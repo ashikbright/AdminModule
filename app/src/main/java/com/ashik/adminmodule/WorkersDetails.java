@@ -27,12 +27,6 @@ public class WorkersDetails extends AppCompatActivity {
     DispAdapter adapter;
     Button add;
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(WorkersDetails.this,WorkerDetailsHome.class));
-        finish();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
