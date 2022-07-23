@@ -22,15 +22,20 @@ import android.widget.Spinner;
 import com.ashik.adminmodule.Models.Order;
 import com.ashik.adminmodule.ViewHolder.ListOrderRecyclerAdapter;
 import com.ashik.adminmodule.ViewHolder.orderRecyclerAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import static android.content.ContentValues.TAG;
 
 public class ListOrders extends AppCompatActivity {
 
@@ -43,6 +48,7 @@ public class ListOrders extends AppCompatActivity {
     public ListOrderRecyclerAdapter myAdapter;
     public ArrayList<Order> orderList;
     public String statusCode = "0";
+    public DatabaseReference orderRef;
 
 
 
@@ -57,6 +63,7 @@ public class ListOrders extends AppCompatActivity {
 //        imageButton = findViewById(R.id.btn_back);
         database = FirebaseDatabase.getInstance();
         order = database.getReference("Orders");
+        orderRef = order.child(userID);
 
         recyclerView = findViewById(R.id.BookingsRecycler);
         recyclerView.setHasFixedSize(true);
@@ -90,15 +97,21 @@ public class ListOrders extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        Order myOrder = dataSnapshot.getValue(Order.class);
-                        orderList.add(myOrder);
-                    }
+                    if (snapshot.exists()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Order myOrder = dataSnapshot.getValue(Order.class);
+                            orderList.add(myOrder);
+                        }
 
-                    sortOrders();
-                    myAdapter.notifyDataSetChanged();
-                    Log.d("orderData", "data received successfully");
-                    Log.d("orderData", orderList.toString());
+                        sortOrders();
+                        myAdapter.notifyDataSetChanged();
+                        Log.d("orderData", "data received successfully");
+                        Log.d("orderData", orderList.toString());
+                    }
+                    else{
+                        Log.d("orderData", "not found");
+                        deleteItem(userID);
+                    }
 
                 }
 
@@ -116,6 +129,36 @@ public class ListOrders extends AppCompatActivity {
         handler.postDelayed(dialog::dismiss, 500);
 
     }
+
+    private void deleteItem(String userID) {
+
+        order.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                order.child(userID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            Log.d("deleteStatus", "successfully deleted.");
+                        }
+                        else {
+                            Log.d("deleteStatus", "not deleted.");
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
 
     private void sortOrders() {
         Collections.sort(orderList, new Comparator<Order>() {

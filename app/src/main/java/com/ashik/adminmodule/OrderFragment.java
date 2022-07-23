@@ -77,7 +77,6 @@ public class OrderFragment extends Fragment{
                         }
 
                     }
-
                     sortOrders();
                     myAdapter.notifyDataSetChanged();
                     Log.d("userData", "data received successfully");
@@ -141,5 +140,6 @@ public class OrderFragment extends Fragment{
         }
 
     }
+
 
 }

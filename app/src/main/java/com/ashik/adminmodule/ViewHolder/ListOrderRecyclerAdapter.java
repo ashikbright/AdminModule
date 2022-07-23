@@ -56,7 +56,6 @@ public class ListOrderRecyclerAdapter extends RecyclerView.Adapter<ListOrderRecy
             txtStatus = itemView.findViewById(R.id.order_status);
             txtLocation = itemView.findViewById(R.id.order_place);
 
-
             itemView.setOnCreateContextMenuListener(this);
 
         }
@@ -180,6 +179,7 @@ public class ListOrderRecyclerAdapter extends RecyclerView.Adapter<ListOrderRecy
                             }
                         });
                     }
+                    notifyDataSetChanged();
                 }
 
             }
