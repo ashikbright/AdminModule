@@ -64,7 +64,7 @@ public class OrderFragment extends Fragment{
 //        dialog.show();
 
 
-            order.addValueEventListener(new ValueEventListener() {
+            order.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -82,7 +82,6 @@ public class OrderFragment extends Fragment{
                     myAdapter.notifyDataSetChanged();
                     Log.d("userData", "data received successfully");
                     Log.d("userData", userList.toString());
-
                 }
 
                 @Override
@@ -102,8 +101,9 @@ public class OrderFragment extends Fragment{
                 Log.d("clickListener", "userID : "+ userID);
 
                 Intent intent = new Intent(requireActivity(), ListOrders.class);
-                intent.putExtra("workerID", userID);
+                intent.putExtra("userID", userID);
                 startActivity(intent);
+
             }
         });
 

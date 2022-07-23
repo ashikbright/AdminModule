@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdapter.OrderViewHolder> {
 
@@ -37,6 +38,8 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
     public orderRecyclerAdapter(Context context, ArrayList<User> orderList) {
         this.context = context;
         this.userList = orderList;
+
+        clearList();
     }
 
     public interface OnItemClickListener{
@@ -76,6 +79,7 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
                 }
             });
 
+
         }
 
         @Override
@@ -109,7 +113,7 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
         orderRef = FirebaseDatabase.getInstance().getReference().child("Orders");
         DatabaseReference ordersCountRef =  orderRef.child(userId).child("orderRequests");
 
-        ordersCountRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        ordersCountRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -122,16 +126,14 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
                 String orderText = Integer.toString(orderCount);
                 holder.txtTotalOrders.setText(orderText);
                 Log.d("ColumnExist", "order count: " + orderText);
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("ColumnExist", "ERROR : " + error);
+                Log.d("ColumnExist", "error: " + error);
             }
         });
 
-//        String totalOrderCount = countTotalOrders(userId);
 
     }
 
@@ -167,6 +169,11 @@ public class orderRecyclerAdapter extends RecyclerView.Adapter<orderRecyclerAdap
     }
 
 
+    public void clearList(){
+        HashSet<User> hashSet = new HashSet<User>(userList);
+        userList.clear();
+        userList.addAll(hashSet);
+    }
 
 
 
