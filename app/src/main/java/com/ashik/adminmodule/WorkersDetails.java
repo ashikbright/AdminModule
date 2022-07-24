@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,35 +23,38 @@ import java.util.ArrayList;
 
 public class WorkersDetails extends AppCompatActivity {
     RecyclerView recyclerView;
-    ArrayList<Workers> list;
+    ArrayList<Workers> workerList;
     DatabaseReference databaseReference;
-    DispAdapter adapter;
-    Button add;
+    DisplayWorkerDetailsAdapter adapter;
+    Button btnAdd;
+    private ImageView backButton;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details_workers);
-        recyclerView=findViewById(R.id.recyclerview);
-        add=findViewById(R.id.btnadd);
+        setContentView(R.layout.activity_workers_details);
+        recyclerView = findViewById(R.id.workers_recycler_view);
+        btnAdd = findViewById(R.id.btnadd);
+        backButton = findViewById(R.id.btn_back_workers_registration);
 
         Intent mIntent = getIntent();
         int selectedItem = mIntent.getIntExtra("itemSelected", 0);
         String selectedItemString = Common.getSelectedWorkerType(selectedItem);
 
-        databaseReference= FirebaseDatabase.getInstance().getReference("Workers").child(selectedItemString);
-        list=new ArrayList<>();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Workers").child(selectedItemString);
+        workerList = new ArrayList<>();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new DispAdapter(this,list);
+        adapter = new DisplayWorkerDetailsAdapter(this, workerList);
         recyclerView.setAdapter(adapter);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    Workers workers=dataSnapshot.getValue(Workers.class);
-                    list.add(workers);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Workers workers = dataSnapshot.getValue(Workers.class);
+                    workerList.add(workers);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -61,17 +65,25 @@ public class WorkersDetails extends AppCompatActivity {
             }
         });
 
-        add.setOnClickListener(new View.OnClickListener() {
+        btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(WorkersDetails.this, WorkerRegistration.class);   //start activity workerRegistration
+                Intent intent = new Intent(WorkersDetails.this, WorkerRegistration.class);   //start activity workerRegistration
                 startActivity(intent);
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WorkersDetails.this, WorkerDetailsHome.class);   //start activity workerRegistration
+                startActivity(intent);
+                finish();
             }
         });
 
 
     }
-
 
 
 }

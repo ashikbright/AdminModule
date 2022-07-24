@@ -49,7 +49,6 @@ public class loginActivity extends AppCompatActivity {
         errorMsg = findViewById(R.id.errorMsg);
 
         mAuth = FirebaseAuth.getInstance();
-        userID = mAuth.getCurrentUser().getUid();
         Log.d("logInfo",mAuth.toString());
 
 
@@ -97,6 +96,7 @@ public class loginActivity extends AppCompatActivity {
         Log.d("checkUser", myRef.toString());
 
 //        user = mAuth.getCurrentUser();
+        userID = mAuth.getCurrentUser().getUid();
 
         myRef.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

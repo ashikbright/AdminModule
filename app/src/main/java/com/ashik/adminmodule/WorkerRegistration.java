@@ -6,6 +6,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class WorkerRegistration extends AppCompatActivity {
     private Button btnRegisterUser;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    private ImageView backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class WorkerRegistration extends AppCompatActivity {
         progressBar = findViewById(R.id.register_progressBar);
         errorMsg = findViewById(R.id.errorMsg_register);
         editaddress=findViewById(R.id.address);
+        backButton=findViewById(R.id.btn_back_workers_registration);
 
         Intent mIntent = getIntent();
         int selectedItem = mIntent.getIntExtra("itemSelected", 0);
@@ -54,6 +57,15 @@ public class WorkerRegistration extends AppCompatActivity {
         spinner.setSelection(selectedItem);
 
         btnRegisterUser.setOnClickListener(v -> registerUser());
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WorkerRegistration.this, WorkerDetailsHome.class);   //start activity workerRegistration
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
@@ -76,8 +88,8 @@ public class WorkerRegistration extends AppCompatActivity {
         }
 
         if (address.isEmpty()){
-            editName.setError("Address is required!");
-            editName.requestFocus();
+            editaddress.setError("Address is required!");
+            editaddress.requestFocus();
             return;
         }
 
@@ -139,7 +151,7 @@ public class WorkerRegistration extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()){
-                            Workers workers=new Workers(name,workerType,email,phone,isWorker,address);
+                            Workers workers=new Workers(name, workerType, email, phone, isWorker, address);
                             FirebaseDatabase.getInstance().getReference("Workers")
                                     .child(spinner.getSelectedItem().toString())
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -150,8 +162,6 @@ public class WorkerRegistration extends AppCompatActivity {
                                     if(task.isSuccessful()){
                                         Toast.makeText(WorkerRegistration.this, "Worker has registered successfully", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.VISIBLE);
-                                        Intent intent = new Intent(WorkerRegistration.this, loginActivity.class);
-                                        startActivity(intent);
                                     }
                                     else{
                                         Toast.makeText(WorkerRegistration.this, "Failed to register! try again.", Toast.LENGTH_SHORT).show();

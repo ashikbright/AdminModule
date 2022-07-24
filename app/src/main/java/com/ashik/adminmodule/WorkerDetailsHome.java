@@ -21,7 +21,7 @@ public class WorkerDetailsHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_details_worker);
+        setContentView(R.layout.activity_worker_details_home);
 
 
         imgBtnLabour=findViewById(R.id.imgbtn_labour);
