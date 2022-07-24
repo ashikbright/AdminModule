@@ -60,7 +60,7 @@ public class OrderFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         registerForContextMenu(recyclerView);
 
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
                 android.R.color.holo_green_dark,
@@ -112,7 +112,6 @@ public class OrderFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         return view;
     }
-
 
 
     private void sortOrders() {

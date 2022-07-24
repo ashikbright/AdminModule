@@ -15,6 +15,8 @@ public class Common {
 
     public static String CURRENT_ORDER_STATUS;
 
+    public static boolean userDeleted = false;
+
     public static String checkStatus(String status_code) {
 
         String st = "N/A";

@@ -155,7 +155,8 @@
                         android:elevation="5dp"
                         android:padding="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/plumber1" />
+                        android:src="@drawable/plumber1"
+                        android:contentDescription="TODO" />
 
                 </TableRow>
 

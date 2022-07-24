@@ -61,8 +61,6 @@ public class WorkerRegistration extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WorkerRegistration.this, WorkerDetailsHome.class);   //start activity workerRegistration
-                startActivity(intent);
                 finish();
             }
         });
@@ -161,6 +159,9 @@ public class WorkerRegistration extends AppCompatActivity {
 
                                     if(task.isSuccessful()){
                                         Toast.makeText(WorkerRegistration.this, "Worker has registered successfully", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(WorkerRegistration.this, WorkerDetailsHome.class);   //start activity workerRegistration
+                                        startActivity(intent);
+                                        finish();
                                         progressBar.setVisibility(View.VISIBLE);
                                     }
                                     else{

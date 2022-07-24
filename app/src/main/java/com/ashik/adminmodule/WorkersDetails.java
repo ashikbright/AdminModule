@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ashik.adminmodule.Common.Common;
+import com.ashik.adminmodule.Models.User;
 import com.ashik.adminmodule.Models.Workers;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,14 +23,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class WorkersDetails extends AppCompatActivity {
+public class WorkersDetails extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     RecyclerView recyclerView;
     ArrayList<Workers> workerList;
     DatabaseReference databaseReference;
     DisplayWorkerDetailsAdapter adapter;
     Button btnAdd;
     private ImageView backButton;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     @Override
@@ -42,42 +48,51 @@ public class WorkersDetails extends AppCompatActivity {
         int selectedItem = mIntent.getIntExtra("itemSelected", 0);
         String selectedItemString = Common.getSelectedWorkerType(selectedItem);
 
+
         databaseReference = FirebaseDatabase.getInstance().getReference("Workers").child(selectedItemString);
         workerList = new ArrayList<>();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new DisplayWorkerDetailsAdapter(this, workerList);
-        recyclerView.setAdapter(adapter);
+        adapter = new DisplayWorkerDetailsAdapter(this, workerList, selectedItemString);
 
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        mSwipeRefreshLayout = findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
+        /*
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Workers workers = dataSnapshot.getValue(Workers.class);
-                    workerList.add(workers);
-                }
-                adapter.notifyDataSetChanged();
-            }
+            public void run() {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+                mSwipeRefreshLayout.setRefreshing(true);
+                // Fetching data from server
+                loadRecyclerViewData();
             }
         });
+
+
+        recyclerView.setAdapter(adapter);
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WorkersDetails.this, WorkerRegistration.class);   //start activity workerRegistration
-                startActivity(intent);
+                Intent intent = new Intent(WorkersDetails.this, WorkerRegistration.class);
+                intent.putExtra("itemSelected", selectedItem);
+                startActivity(intent);          //start activity workerRegistration
+                finish();
             }
         });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WorkersDetails.this, WorkerDetailsHome.class);   //start activity workerRegistration
-                startActivity(intent);
                 finish();
             }
         });
@@ -86,4 +101,46 @@ public class WorkersDetails extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onRefresh() {
+        workerList.clear();
+        loadRecyclerViewData();
+    }
+
+    private void loadRecyclerViewData() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Workers workers = dataSnapshot.getValue(Workers.class);
+                    workerList.add(workers);
+                }
+                sortOrders();
+                adapter.notifyDataSetChanged();
+                if (workerList.isEmpty()){
+                    Toast.makeText(WorkersDetails.this, "No records found", Toast.LENGTH_SHORT).show();
+                }
+
+                mSwipeRefreshLayout.setRefreshing(false);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void sortOrders() {
+        Collections.sort(workerList, new Comparator<Workers>() {
+            @Override
+            public int compare(Workers o1, Workers o2) {
+                return o1.getName().compareToIgnoreCase(o2.getName());
+            }
+        });
+
+
+    }
 }
