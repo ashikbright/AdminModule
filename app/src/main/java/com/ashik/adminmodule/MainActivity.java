@@ -2,7 +2,6 @@ package com.ashik.adminmodule;
 
 import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -100,23 +99,23 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Admin");
+        reference = FirebaseDatabase.getInstance().getReference("Users");
         Log.d("logInfo", reference.toString());
         if (user != null){
             userID = user.getUid();
         }
 
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User adminData = snapshot.getValue(User.class);
+                User userInfo = snapshot.getValue(User.class);
 
-                if (adminData != null){
-                    name = adminData.name;
-                    phone = adminData.phone;
-                    email = adminData.email;
+                if (userInfo != null){
+                    name = userInfo.name;
+                    phone = userInfo.phone;
+                    email = userInfo.email;
 
-                    SharedPreferences.Editor editor = getSharedPreferences("adminInfo", MODE_PRIVATE).edit();
+                    SharedPreferences.Editor editor = getSharedPreferences("userInfo", MODE_PRIVATE).edit();
                     editor.putString("name", name);
                     editor.putString("phone", phone);
                     editor.putString("email", email);
@@ -134,29 +133,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onStart() {
-        try {
-            IntentFilter filter = new IntentFilter();
-            registerReceiver(broadcastReceiver, filter);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        super.onStart();
-    }
-
-
-    @Override
-    protected void onStop() {
-        try {
-            unregisterReceiver(broadcastReceiver);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        super.onStop();
-    }
+//    @Override
+//    protected void onStart() {
+//        try {
+//            IntentFilter filter = new IntentFilter();
+//            registerReceiver(broadcastReceiver, filter);
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        super.onStart();
+//    }
+//
+//
+//    @Override
+//    protected void onStop() {
+//        try {
+//            unregisterReceiver(broadcastReceiver);
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        super.onStop();
+//    }
 
 
 

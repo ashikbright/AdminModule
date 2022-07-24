@@ -18,7 +18,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,7 +33,7 @@ public class loginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
-    private FirebaseUser user;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +49,8 @@ public class loginActivity extends AppCompatActivity {
         errorMsg = findViewById(R.id.errorMsg);
 
         mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
         Log.d("logInfo",mAuth.toString());
-
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -74,11 +73,11 @@ public class loginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             //redirect to user profile
-                            checkUserAccessLevel(mAuth.getUid());
+                            checkUserAccessLevel();
                         }
                         else{
                             progressBar.setVisibility(View.GONE);
-                            Toast.makeText(loginActivity.this, "Failed to login! Please check your credentials.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(loginActivity.this, "Failed to login! Please check your credentials!!!", Toast.LENGTH_SHORT).show();
                         }
                         progressBar.setVisibility(View.GONE);
                     }
@@ -92,12 +91,14 @@ public class loginActivity extends AppCompatActivity {
 
     }
 
-    private void checkUserAccessLevel(String uid) {
+    private void checkUserAccessLevel() {
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("Admin");
-        user = mAuth.getCurrentUser();
+        myRef = database.getReference("Users");
+        Log.d("checkUser", myRef.toString());
 
-        myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+//        user = mAuth.getCurrentUser();
+
+        myRef.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
