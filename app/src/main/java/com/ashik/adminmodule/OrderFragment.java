@@ -1,7 +1,9 @@
 package com.ashik.adminmodule;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.ashik.adminmodule.Common.Common;
 import com.ashik.adminmodule.Models.User;
@@ -27,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class OrderFragment extends Fragment{
+public class OrderFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public RecyclerView recyclerView;
     public RecyclerView.LayoutManager layoutManager;
@@ -35,6 +38,7 @@ public class OrderFragment extends Fragment{
     public DatabaseReference order;
     public orderRecyclerAdapter myAdapter;
     public ArrayList<User> userList;
+    public SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,43 +55,39 @@ public class OrderFragment extends Fragment{
         recyclerView.setLayoutManager(layoutManager);
 
         userList = new ArrayList<>();
-
         myAdapter = new orderRecyclerAdapter(getActivity(), userList);
-        recyclerView.setAdapter(myAdapter);
 
         registerForContextMenu(recyclerView);
 
 
-//        ProgressDialog dialog = new ProgressDialog(getActivity());
-//        dialog.setTitle("Please Wait");
-//        dialog.setMessage("Loading...");
-//        dialog.show();
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
+        /*
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+
+                mSwipeRefreshLayout.setRefreshing(true);
+                // Fetching data from server
+                loadRecyclerViewData();
+            }
+        });
+
+        recyclerView.setAdapter(myAdapter);
 
 
-            order.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        User currentUser = dataSnapshot.child("userInfo").getValue(User.class);
-                        userList.add(currentUser);
-
-                        if (currentUser != null) {
-                            Common.CurrentUser = currentUser;
-                        }
-
-                    }
-                    sortOrders();
-                    myAdapter.notifyDataSetChanged();
-                    Log.d("userData", "data received successfully");
-                    Log.d("userData", userList.toString());
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.d("userData", "data failed");
-                }
-            });
+        ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setTitle("Please Wait");
+        dialog.setMessage("Loading...");
+        dialog.show();
 
 
         myAdapter.setOnItemClickListener(new orderRecyclerAdapter.OnItemClickListener() {
@@ -106,8 +106,8 @@ public class OrderFragment extends Fragment{
             }
         });
 
-//        Handler handler = new Handler();
-//        handler.postDelayed(dialog::dismiss, 300);
+        Handler handler = new Handler();
+        handler.postDelayed(dialog::dismiss, 300);
 
 
         return view;
@@ -142,4 +142,40 @@ public class OrderFragment extends Fragment{
     }
 
 
+    @Override
+    public void onRefresh() {
+        userList.clear();
+        loadRecyclerViewData();
+    }
+
+    private void loadRecyclerViewData() {
+        mSwipeRefreshLayout.setRefreshing(true);
+
+        order.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User currentUser = dataSnapshot.child("userInfo").getValue(User.class);
+                    userList.add(currentUser);
+
+                    if (currentUser != null) {
+                        Common.CurrentUser = currentUser;
+                    }
+
+                }
+                sortOrders();
+                myAdapter.notifyDataSetChanged();
+                Log.d("userData", "data received successfully");
+                Log.d("userData", userList.toString());
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("userData", "data failed");
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 }
