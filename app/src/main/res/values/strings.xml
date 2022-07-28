@@ -52,5 +52,9 @@
         <item>Cancel Order</item>
     </string-array>
 
+    <string name="enter_project_name">Project Site Name</string>
+    <string name="address">Addess</string>
+    <string name="City">City</string>
+
 
 </resources>
