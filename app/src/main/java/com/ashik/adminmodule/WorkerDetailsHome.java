@@ -24,14 +24,14 @@ public class WorkerDetailsHome extends AppCompatActivity {
         setContentView(R.layout.activity_worker_details_home);
 
 
-        imgBtnLabour=findViewById(R.id.imgbtn_labour);
-        imgBtnMistri=findViewById(R.id.imgbtn_mistri);
-        imgBtnTiles=findViewById(R.id.imgbtn_tiles);
-        imgBtnPaint=findViewById(R.id.imgbtn_painter);
-        imgBtnFurniture=findViewById(R.id.imgbtn_furniture);
-        imgBtnPlumber=findViewById(R.id.imgbtn_plumber);
-        imgBtnWelder=findViewById(R.id.imgbtn_plumber2);
-        imgBtnElectrician=findViewById(R.id.imgbtn_plumber3);
+        imgBtnLabour = findViewById(R.id.imgbtn_labour);
+        imgBtnMistri = findViewById(R.id.imgbtn_mistri);
+        imgBtnTiles = findViewById(R.id.imgbtn_tiles);
+        imgBtnPaint = findViewById(R.id.imgbtn_painter);
+        imgBtnFurniture = findViewById(R.id.imgbtn_furniture);
+        imgBtnPlumber = findViewById(R.id.imgbtn_plumber);
+        imgBtnWelder = findViewById(R.id.imgbtn_plumber2);
+        imgBtnElectrician = findViewById(R.id.imgbtn_plumber3);
 
         imgBtnLabour.setOnClickListener(v -> confirmOrder(0));
 
@@ -50,11 +50,10 @@ public class WorkerDetailsHome extends AppCompatActivity {
         imgBtnElectrician.setOnClickListener(v -> confirmOrder(7));
 
 
-
     }
 
 
-    private  void confirmOrder(int selectedItem) {
+    private void confirmOrder(int selectedItem) {
         Intent intent = new Intent(WorkerDetailsHome.this, WorkersDetails.class);
         intent.putExtra("itemSelected", selectedItem);
         startActivity(intent);

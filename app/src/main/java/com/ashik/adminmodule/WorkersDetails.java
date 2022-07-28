@@ -108,9 +108,10 @@ public class WorkersDetails extends AppCompatActivity implements SwipeRefreshLay
     }
 
     private void loadRecyclerViewData() {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                workerList.clear();
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Workers workers = dataSnapshot.getValue(Workers.class);

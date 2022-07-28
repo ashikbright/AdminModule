@@ -60,12 +60,8 @@ public class DisplayWorkerDetailsAdapter extends RecyclerView.Adapter<DisplayWor
         holder.workerType.setText(workers.getWorkertype());
         holder.email.setText(workers.getEmail());
         holder.address.setText(workers.getAddress());
-//    holder.dltworker.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            FirebaseDatabase.getInstance().getReference("Workers").child("selectedItemString").child(getRef(position).getKey());
-//        }
-//    });
+
+
     }
 
     @Override
@@ -78,6 +74,7 @@ public class DisplayWorkerDetailsAdapter extends RecyclerView.Adapter<DisplayWor
         private ImageButton dltWorker;
         private DatabaseReference workerRef;
 
+
         public MyViewHolder(@NonNull View itemView, String selectedItem, Context context) {
             super(itemView);
             name = itemView.findViewById(R.id.wname);
@@ -89,7 +86,7 @@ public class DisplayWorkerDetailsAdapter extends RecyclerView.Adapter<DisplayWor
             dltWorker.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "buttonClicked", Toast.LENGTH_SHORT).show();
+
                     alertUser(email.getText().toString(), selectedItem, context);
                 }
             });
@@ -156,6 +153,7 @@ public class DisplayWorkerDetailsAdapter extends RecyclerView.Adapter<DisplayWor
                 }
             };
             query.addListenerForSingleValueEvent(valueEventListener);
+
         }
 
         private void updateLog(String selectedItem, String key) {
